@@ -106,6 +106,8 @@ openclaw gateway restart
 ### Option B — Standalone (continue.dev, Cursor, VS Code, any OpenAI-compatible client)
 
 > **Using Claude Code?** Check out [BRCC](https://blockrun.ai/brcc.md) — it's purpose-built for Claude Code with the same smart routing and x402 payments.
+>
+> **Using NousResearch Hermes?** See [ClawRouter-Hermes](https://github.com/BlockRunAI/ClawRouter-Hermes) — a Python plugin that wires Hermes into the ClawRouter proxy. Same wallet, same 55+ models, same x402 USDC settlement on Base & Solana.
 
 No OpenClaw required. ClawRouter runs as a local proxy on port 8402.
 
@@ -626,6 +628,24 @@ You're here. 55+ models, local smart routing, x402 USDC payments — the only st
 Run Claude Code with 50+ models, no rate limits, no Anthropic account, no phone verification. Pay per request with USDC — your wallet is your identity.
 
 `curl -fsSL https://blockrun.ai/brcc-install | bash`
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🐍 [ClawRouter-Hermes](https://github.com/BlockRunAI/ClawRouter-Hermes)
+
+**ClawRouter for NousResearch Hermes**
+
+Python plugin that wraps the ClawRouter proxy for `hermes-agent`. Same 55+ models, same x402 USDC payments on Base & Solana, native Hermes ergonomics.
+
+`pip install hermes-plugin-clawrouter`
+
+</td>
+<td width="50%">
+
+<!-- next ecosystem entry goes here -->
 
 </td>
 </tr>
