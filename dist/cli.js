@@ -32007,6 +32007,7 @@ var init_top_models = __esm({
       "xai/grok-3",
       "xai/grok-4-0709",
       "xai/grok-4-1-fast-reasoning",
+      "minimax/minimax-m3",
       "minimax/minimax-m2.7",
       "free/gpt-oss-120b",
       "free/gpt-oss-20b",
@@ -32285,8 +32286,9 @@ var init_models = __esm({
       "devstral-2": "free/qwen3-coder-480b",
       maverick: "free/llama-4-maverick",
       free: "free/gpt-oss-120b",
-      // MiniMax
-      minimax: "minimax/minimax-m2.7",
+      // MiniMax (minimax → current flagship: M3)
+      minimax: "minimax/minimax-m3",
+      "minimax-m3": "minimax/minimax-m3",
       "minimax-m2.7": "minimax/minimax-m2.7",
       "minimax-m2.5": "minimax/minimax-m2.5",
       // Z.AI GLM-5
@@ -32949,6 +32951,18 @@ var init_models = __esm({
       },
       // MiniMax
       {
+        id: "minimax/minimax-m3",
+        name: "MiniMax M3",
+        version: "m3",
+        inputPrice: 0.3,
+        outputPrice: 1.2,
+        contextWindow: 1048576,
+        maxOutput: 65536,
+        reasoning: true,
+        agentic: true,
+        toolCalling: true
+      },
+      {
         id: "minimax/minimax-m2.7",
         name: "MiniMax M2.7",
         version: "m2.7",
@@ -33204,6 +33218,12 @@ var init_fs_read = __esm({
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { dirname, join as join3 } from "path";
+function clientTag() {
+  const raw = (process.env.CLAWROUTER_CLIENT ?? "").trim();
+  if (!raw) return "";
+  const safe = raw.replace(/[^A-Za-z0-9._/+-]/g, "");
+  return safe ? ` ${safe}` : "";
+}
 var __filename2, __dirname, require2, pkg, VERSION, USER_AGENT;
 var init_version4 = __esm({
   "src/version.ts"() {
@@ -33213,7 +33233,7 @@ var init_version4 = __esm({
     require2 = createRequire(import.meta.url);
     pkg = require2(join3(__dirname, "..", "package.json"));
     VERSION = pkg.version;
-    USER_AGENT = `clawrouter/${VERSION}`;
+    USER_AGENT = `clawrouter/${VERSION}${clientTag()}`;
   }
 });
 

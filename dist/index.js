@@ -58369,6 +58369,7 @@ var top_models_default = [
   "xai/grok-3",
   "xai/grok-4-0709",
   "xai/grok-4-1-fast-reasoning",
+  "minimax/minimax-m3",
   "minimax/minimax-m2.7",
   "free/gpt-oss-120b",
   "free/gpt-oss-20b",
@@ -58547,8 +58548,9 @@ var MODEL_ALIASES = {
   "devstral-2": "free/qwen3-coder-480b",
   maverick: "free/llama-4-maverick",
   free: "free/gpt-oss-120b",
-  // MiniMax
-  minimax: "minimax/minimax-m2.7",
+  // MiniMax (minimax → current flagship: M3)
+  minimax: "minimax/minimax-m3",
+  "minimax-m3": "minimax/minimax-m3",
   "minimax-m2.7": "minimax/minimax-m2.7",
   "minimax-m2.5": "minimax/minimax-m2.5",
   // Z.AI GLM-5
@@ -59236,6 +59238,18 @@ var BLOCKRUN_MODELS = [
     toolCalling: true
   },
   // MiniMax
+  {
+    id: "minimax/minimax-m3",
+    name: "MiniMax M3",
+    version: "m3",
+    inputPrice: 0.3,
+    outputPrice: 1.2,
+    contextWindow: 1048576,
+    maxOutput: 65536,
+    reasoning: true,
+    agentic: true,
+    toolCalling: true
+  },
   {
     id: "minimax/minimax-m2.7",
     name: "MiniMax M2.7",
@@ -75785,7 +75799,13 @@ var __dirname = dirname(__filename2);
 var require2 = createRequire(import.meta.url);
 var pkg = require2(join3(__dirname, "..", "package.json"));
 var VERSION = pkg.version;
-var USER_AGENT = `clawrouter/${VERSION}`;
+function clientTag() {
+  const raw = (process.env.CLAWROUTER_CLIENT ?? "").trim();
+  if (!raw) return "";
+  const safe = raw.replace(/[^A-Za-z0-9._/+-]/g, "");
+  return safe ? ` ${safe}` : "";
+}
+var USER_AGENT = `clawrouter/${VERSION}${clientTag()}`;
 
 // src/stats.ts
 var LOG_DIR2 = join4(homedir2(), ".openclaw", "blockrun", "logs");
