@@ -4,6 +4,15 @@ All notable changes to ClawRouter.
 
 ---
 
+## v0.12.208 — June 11, 2026
+
+Stop non-English prompts from crashing paid responses via the `x-clawrouter-reasoning` header.
+
+- **Non-ASCII routing reasoning crashed `res.writeHead` after settlement** (`src/proxy.ts`). The routing reasoning string embeds matched keywords from the multilingual lists in `src/router/config.ts` (Cyrillic, CJK, …). Debug headers are on by default, so for e.g. Russian prompts the raw Cyrillic keywords landed in the `x-clawrouter-reasoning` response header and Node rejected the write with `ERR_INVALID_CHAR` — *after* the upstream call had completed and the x402 payment had settled. The client never received the body and retried, signing a fresh payment each round: a paid retry loop. Header values are now percent-encoded outside printable ASCII (`sanitizeHeaderValue`, reversible via `decodeURIComponent`), and as defense in depth a rejected `writeHead` sanitizes all header values and still delivers the paid body instead of throwing. (Test: `proxy.reasoning-header.test.ts`, 13 cases, including a live Russian-prompt repro through `classifyByRules` validated against Node's `validateHeaderValue`.)
+- **`CLAWROUTER_DEBUG_HEADERS=off|false|0`** — new env kill switch for the `x-clawrouter-*` debug headers, for clients that can't set the per-request `x-clawrouter-debug: false` header. Comments claiming the headers were "opt-in" corrected (they are on by default).
+
+---
+
 ## v0.12.207 — June 11, 2026
 
 Honor standard proxy environment variables for upstream traffic.
